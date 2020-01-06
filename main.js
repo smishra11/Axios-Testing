@@ -18,27 +18,42 @@ function getTodos() {
 
 // POST REQUEST
 function addTodo() {
-  axios.post('https://jsonplaceholder.typicode.com/posts', {
-    title: 'New Post',
-    completed:false
-  })
+  axios
+    .post('https://jsonplaceholder.typicode.com/posts', {
+      title: 'New Post',
+      completed:false
+    })
     .then(res => showOutput(res))
     .catch(err => console.error(err));
 }
 
 // PUT/PATCH REQUEST
 function updateTodo() {
-  console.log('PUT/PATCH Request');
+  axios
+    .patch('https://jsonplaceholder.typicode.com/posts/1', {
+      title: 'Updated Post',
+      completed: true
+    })
+    .then(res => showOutput(res))
+    .catch(err => console.error(err));
 }
 
 // DELETE REQUEST
 function removeTodo() {
-  console.log('DELETE Request');
+  axios
+    .delete('https://jsonplaceholder.typicode.com/posts/1')
+    .then(res => showOutput(res))
+    .catch(err => console.error(err));
 }
 
 // SIMULTANEOUS DATA
 function getData() {
-  console.log('Simultaneous Request');
+  axios.all([
+    axios.get('https://jsonplaceholder.typicode.com/posts?_limit=5'),
+    axios.get('https://jsonplaceholder.typicode.com/todos?_limit=5')
+  ])
+  .then(axios.spread((todos, posts) => showOutput(posts)))
+  .catch(err => console.error(err));
 }
 
 // CUSTOM HEADERS
